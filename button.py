@@ -16,6 +16,7 @@ auth.set_access_token(akey, asecret)
 api = tweepy.API(auth)
 
 def cam():
+    led.on()
     print("About to take a picture.")
     with picamera.PiCamera() as camera:
     #camera = picamera.PiCamera()
@@ -27,6 +28,7 @@ def cam():
         print("picture taken")
         sendTweet(name)
         sendEmail(name)
+    led.off()
     
 def sendTweet(name):
     api.update_with_media(name, 'Someone else at your door')
@@ -63,11 +65,12 @@ def sendEmail(img_file):
 led = LED(17)
 button = Button(2)
 
-button.when_pressed = lambda:led.on
-button.when_released =lambda: led.off
+
+#button.when_released = led.off
 button.when_pressed = lambda:cam()
 
-input()
+
+pause()
 
 
 
